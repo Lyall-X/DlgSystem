@@ -45,7 +45,7 @@ UEdGraphNode* FNewNode_DialogueGraphSchemaAction::CreateNode(UDlgDialogue* Dialo
 	// Use the participant name from the first node as default
 	if (Dialogue->GetNodes().Num() > 0)
 	{
-		DialogueNode->SetNodeParticipantName("你好你好");
+		DialogueNode->SetNodeParticipantName(Dialogue->GetNodes()[0]->GetNodeParticipantName());
 	}
 
 	// Create the graph node
