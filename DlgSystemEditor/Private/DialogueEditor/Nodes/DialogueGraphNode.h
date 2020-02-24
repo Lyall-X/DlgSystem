@@ -9,6 +9,7 @@
 #include "Nodes/DlgNode_Selector.h"
 #include "Nodes/DlgNode_SpeechSequence.h"
 #include "DialogueGraphNode_Base.h"
+#include "SummonNpc.h"
 
 #include "DialogueGraphNode.generated.h"
 
@@ -402,4 +403,8 @@ protected:
 	 * Forcefully hide this node from the graph.
 	 */
 	bool bForceHideNode = false;
+
+	//*********************************************************************************//
+public:
+	bool IsSummonNode() const { return DialogueNode->IsA<USummonNpc>(); }
 };

@@ -10,6 +10,7 @@
 #include "DlgCondition.h"
 #include "DlgEvent.h"
 #include "DlgNodeData.h"
+#include "DlgTextArgument.h"
 
 #include "DlgNode.generated.h"
 
@@ -201,11 +202,13 @@ public:
 	UDlgDialogue* GetDialogue() const;
 
 	/** Helper functions to get the names of some properties. Used by the DlgSystemEditor module. */
+
+	//暂时删除的属性
 	static FName GetMemberNameOwnerName() { return GET_MEMBER_NAME_CHECKED(UDlgNode, OwnerName); }
-	static FName GetMemberNameCheckChildrenOnEvaluation() { return GET_MEMBER_NAME_CHECKED(UDlgNode, bCheckChildrenOnEvaluation); }
-	static FName GetMemberNameEnterConditions() { return GET_MEMBER_NAME_CHECKED(UDlgNode, EnterConditions); }
-	static FName GetMemberNameEnterEvents() { return GET_MEMBER_NAME_CHECKED(UDlgNode, EnterEvents); }
-	static FName GetMemberNameChildren() { return GET_MEMBER_NAME_CHECKED(UDlgNode, Children); }
+	//static FName GetMemberNameCheckChildrenOnEvaluation() { return GET_MEMBER_NAME_CHECKED(UDlgNode, bCheckChildrenOnEvaluation); }
+	//static FName GetMemberNameEnterConditions() { return GET_MEMBER_NAME_CHECKED(UDlgNode, EnterConditions); }
+	//static FName GetMemberNameEnterEvents() { return GET_MEMBER_NAME_CHECKED(UDlgNode, EnterEvents); }
+	//static FName GetMemberNameChildren() { return GET_MEMBER_NAME_CHECKED(UDlgNode, Children); }
 
 	// Syncs the GraphNode Edges with our edges
 	void UpdateGraphNode();
@@ -231,18 +234,20 @@ protected:
 	 *  If it is set the node is only satisfied if at least one of its children is
 	 *  Should not be used if entering this node can modify the condition results of its children.
 	 */
-	UPROPERTY(EditAnywhere, Category = DialogueNodeData)
+	//UPROPERTY(EditAnywhere, Category = DialogueNodeData)
 	bool bCheckChildrenOnEvaluation = false;
 
-	/** Conditions necessary to enter this node */
-	UPROPERTY(EditAnywhere, Category = DialogueNodeData)
+	//暂时删除的属性
+	///** Conditions necessary to enter this node */
+	//UPROPERTY(EditAnywhere, Category = DialogueNodeData)
 	TArray<FDlgCondition> EnterConditions;
 
-	/** Events fired when the node is reached in the dialogue */
-	UPROPERTY(EditAnywhere, Category = DialogueNodeData)
+	///** Events fired when the node is reached in the dialogue */
+	//UPROPERTY(EditAnywhere, Category = DialogueNodeData)
 	TArray<FDlgEvent> EnterEvents;
 
-	/** Edges that point to Children of this Node */
-	UPROPERTY(EditAnywhere, EditFixedSize, AdvancedDisplay, Category = DialogueNodeData)
+	///** Edges that point to Children of this Node */
+	//UPROPERTY(EditAnywhere, EditFixedSize, AdvancedDisplay, Category = DialogueNodeData)
 	TArray<FDlgEdge> Children;
+
 };

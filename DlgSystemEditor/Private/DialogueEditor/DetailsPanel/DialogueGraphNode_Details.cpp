@@ -51,7 +51,7 @@ void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 	DetailLayoutBuilder->HideCategory(UDialogueGraphNode::StaticClass()->GetFName());
 
 	// Fill with the properties of the DialogueNode
-	IDetailCategoryBuilder& BaseDataCategory = DetailLayoutBuilder->EditCategory(TEXT("Base Node"));
+	IDetailCategoryBuilder& BaseDataCategory = DetailLayoutBuilder->EditCategory(TEXT("基础属性"));
 	BaseDataCategory.InitiallyCollapsed(false);
 	const TSharedPtr<IPropertyHandle> PropertyDialogueNode =
 		DetailLayoutBuilder->GetProperty(UDialogueGraphNode::GetMemberNameDialogueNode(), UDialogueGraphNode::StaticClass());
@@ -78,17 +78,18 @@ void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 			)
 			.Update();
 		}
-
-		BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameCheckChildrenOnEvaluation()));
-		BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameEnterConditions()))
-			.ShouldAutoExpand(true);
-		BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameEnterEvents()))
-			.ShouldAutoExpand(true);
+		//暂时删除的属性  lyyyyyy
+		//BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameCheckChildrenOnEvaluation()));
+		//BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameEnterConditions()))
+		//	.ShouldAutoExpand(true);
+		//BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameEnterEvents()))
+		//	.ShouldAutoExpand(true);
 	}
 	if (!bIsEndNode)
 	{
-		BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameChildren()))
-			.ShouldAutoExpand(true);
+		//暂时删除的属性  lyyyyyy
+		//BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameChildren()))
+		//	.ShouldAutoExpand(true);
 	}
 
 	// Do nothing
@@ -187,6 +188,19 @@ void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 		SpeechSequenceDataCategory.InitiallyCollapsed(false)
 			.RestoreExpansionState(true);
 		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode_SpeechSequence::GetMemberNameSpeechSequence()))
+			.ShouldAutoExpand(true);;
+	}
+	/**************************************************************************************************************************************************/
+	else if (GraphNode->IsSummonNode())
+	{
+		IDetailCategoryBuilder& SpeechSequenceDataCategory = DetailLayoutBuilder->EditCategory(TEXT("杀怪配置"));
+		SpeechSequenceDataCategory.InitiallyCollapsed(false)
+			.RestoreExpansionState(true);
+		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameNpcId()))
+			.ShouldAutoExpand(true);;
+		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameMapID()))
+			.ShouldAutoExpand(true);;
+		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameName()))
 			.ShouldAutoExpand(true);;
 	}
 }
