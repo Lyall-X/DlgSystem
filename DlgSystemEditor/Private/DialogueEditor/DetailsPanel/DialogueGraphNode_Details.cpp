@@ -65,7 +65,7 @@ void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 		{
 			const TSharedPtr<IPropertyHandle> ParticipantNamePropertyHandle =
 				PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameOwnerName());
-			FDetailWidgetRow* DetailWidgetRow = &BaseDataCategory.AddCustomRow(LOCTEXT("ParticipantNameSearcKey", "Participant Name"));
+			FDetailWidgetRow* DetailWidgetRow = &BaseDataCategory.AddCustomRow(LOCTEXT("ParticipantNameSearcKey", "节点名称"));
 
 			ParticipantNamePropertyRow = MakeShared<FDialogueTextPropertyPickList_CustomRowHelper>(DetailWidgetRow, ParticipantNamePropertyHandle);
 			ParticipantNamePropertyRow->SetTextPropertyPickListWidget(
@@ -78,6 +78,7 @@ void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 			)
 			.Update();
 		}
+		BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameOwnerTag()));
 		//暂时删除的属性  lyyyyyy
 		//BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameCheckChildrenOnEvaluation()));
 		//BaseDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode::GetMemberNameEnterConditions()))
