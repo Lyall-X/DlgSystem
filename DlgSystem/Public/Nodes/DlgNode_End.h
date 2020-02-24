@@ -29,6 +29,6 @@ public:
 	bool OptionSelected(int32 OptionIndex, UDlgContextInternal* DlgContext) override { return false; }
 
 #if WITH_EDITOR
-	FString GetNodeTypeString() const override { return TEXT("End"); }
+	FString GetNodeTypeString() const override { return TEXT("En12323d"); }
 #endif
 };
