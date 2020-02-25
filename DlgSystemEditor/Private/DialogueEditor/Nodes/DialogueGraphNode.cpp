@@ -245,40 +245,14 @@ FLinearColor UDialogueGraphNode::GetNodeBackgroundColor() const
 	}
 
 	const UDlgSystemSettings* Settings = GetDefault<UDlgSystemSettings>();
-	if (IsSpeechNode())
-	{
-		if (IsVirtualParentNode())
-		{
-			return Settings->VirtualParentNodeColor;
-		}
-
-		return Settings->SpeechNodeColor;
-	}
-
-	if (IsSelectorNode())
-	{
-		if (IsSelectorFirstNode())
-		{
-			return Settings->SelectorFirstNodeColor;
-		}
-
-		if (IsSelectorRandomNode())
-		{
-			return Settings->SelectorRandomNodeColor;
-		}
-
-		// should not reach here, like never
-		checkNoEntry();
-	}
-
-	if (IsSpeechSequenceNode())
-	{
-		return Settings->SpeechSequenceNodeColor;
-	}
 
 	if (IsEndNode())
 	{
 		return Settings->EndNodeColor;
+	}
+	if (IsSummonNode())
+	{
+		return Settings->SpeechNodeColor;
 	}
 
 	return FLinearColor::Black;

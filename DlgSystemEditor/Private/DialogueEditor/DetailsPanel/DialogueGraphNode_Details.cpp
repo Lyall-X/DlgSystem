@@ -7,7 +7,6 @@
 #include "Nodes/DlgNode.h"
 #include "Nodes/DlgNode_SpeechSequence.h"
 #include "Nodes/DlgNode_Speech.h"
-#include "Nodes/DlgNode_Selector.h"
 #include "DialogueEditor/Nodes/DialogueGraphNode.h"
 #include "Widgets/SDialogueTextPropertyPickList.h"
 #include "Widgets/DialogueTextPropertyPickList_CustomRowHelper.h"
@@ -44,7 +43,6 @@ void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 	const bool bIsRootNode = GraphNode->IsRootNode();
 	const bool bIsEndNode = GraphNode->IsEndNode();
 	const bool bIsSpeechNode = GraphNode->IsSpeechNode();
-	const bool bIsSelectorNode = GraphNode->IsSelectorNode();;
 	const bool bIsSpeechSequenceNode = GraphNode->IsSpeechSequenceNode();
 
 	// Hide the existing category
@@ -176,12 +174,6 @@ void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 			PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameGenericData())
 		);
 		GenericDataPropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetGenericDataVisibility));
-	}
-	else if (bIsSelectorNode)
-	{
-		IDetailCategoryBuilder& SpeechDataCategory = DetailLayoutBuilder->EditCategory(TEXT("Selector Node"));
-		SpeechDataCategory.InitiallyCollapsed(false);
-		SpeechDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode_Selector::GetMemberNameSelectorType()));
 	}
 	else if (bIsSpeechSequenceNode)
 	{

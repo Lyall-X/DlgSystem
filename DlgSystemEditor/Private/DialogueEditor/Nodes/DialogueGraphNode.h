@@ -6,7 +6,6 @@
 
 #include "Nodes/DlgNode_End.h"
 #include "Nodes/DlgNode_Speech.h"
-#include "Nodes/DlgNode_Selector.h"
 #include "Nodes/DlgNode_SpeechSequence.h"
 #include "DialogueGraphNode_Base.h"
 #include "SummonNpc.h"
@@ -187,31 +186,6 @@ public:
 		if (const UDlgNode_Speech* Node = Cast<UDlgNode_Speech>(DialogueNode))
 		{
 			return Node->IsVirtualParent();
-		}
-
-		return false;
-	}
-
-	/** Is this a selector Node? */
-	bool IsSelectorNode() const { return DialogueNode->IsA<UDlgNode_Selector>(); }
-
-	/** Is this a selector First Node? */
-	bool IsSelectorFirstNode() const
-	{
-		if (const UDlgNode_Selector* Node = Cast<UDlgNode_Selector>(DialogueNode))
-		{
-			return Node->GetSelectorType() == EDlgNodeSelectorType::First;
-		}
-
-		return false;
-	}
-
-	/** Is this a selector Random Node? */
-	bool IsSelectorRandomNode() const
-	{
-		if (const UDlgNode_Selector* Node = Cast<UDlgNode_Selector>(DialogueNode))
-		{
-			return Node->GetSelectorType() == EDlgNodeSelectorType::Random;
 		}
 
 		return false;

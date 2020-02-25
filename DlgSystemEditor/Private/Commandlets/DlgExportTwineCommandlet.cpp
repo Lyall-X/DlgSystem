@@ -343,24 +343,6 @@ FString UDlgExportTwineCommandlet::CreateTwinePassageDataFromNode(const UDlgDial
 		NodeContent += TEXT("END");
 		return CreateTwinePassageData(NodeIndex, NodeName, Tags, Position, Size, NodeContent);
 	}
-	if (DialogueGraphNode->IsSelectorNode())
-	{
-		// Does not have any text and text for edges does not matter
-		if (DialogueGraphNode->IsSelectorFirstNode())
-		{
-			Tags += TagNodeSelectorFirst;
-		}
-		if (DialogueGraphNode->IsSelectorRandomNode())
-		{
-			Tags += TagNodeSelectorRandom;
-		}
-		Size = SizeSmall;
-		Position = GetNonConflictingPointFor(Position, Size, Padding);
-
-		NodeContent += TEXT("SELECTOR\n");
-		NodeContent += CreateTwinePassageDataLinksFromEdges(Dialogue, Node.GetNodeChildren(), true);
-		return CreateTwinePassageData(NodeIndex, NodeName, Tags, Position, Size, NodeContent);
-	}
 	if (DialogueGraphNode->IsSpeechSequenceNode())
 	{
 		Tags += TagNodeSpeechSequence;

@@ -3,7 +3,6 @@
 #include "DlgSystemPrivatePCH.h"
 #include "DlgContextInternal.h"
 #include "DlgLocalizationHelper.h"
-#include "Nodes/DlgNode_Selector.h"
 #include "Nodes/DlgNode_Speech.h"
 
 const FDlgEdge& FDlgEdge::GetInvalidEdge()
@@ -19,11 +18,6 @@ bool FDlgEdge::IsTextVisible(const UDlgNode* ParentNode)
 		return false;
 	}
 
-	// Selector node
-	if (ParentNode->IsA<UDlgNode_Selector>())
-	{
-		return false;
-	}
 
 	// Virtual parent node
 	if (const UDlgNode_Speech* Node = Cast<UDlgNode_Speech>(ParentNode))
