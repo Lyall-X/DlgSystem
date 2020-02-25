@@ -75,7 +75,7 @@ public:
 	void AddAllSpeakerStatesIntoSet(TSet<FName>& OutStates) const override { OutStates.Add(SpeakerState); }
 
 #if WITH_EDITOR
-	FString GetNodeTypeString() const override { return bIsVirtualParent ? TEXT("Virtual Parent") : TEXT("Speech"); }
+	FString GetNodeTypeString() const override { return bIsVirtualParent ? TEXT("Virtual Parent--禁用") : TEXT("Speech--禁用"); }
 #endif
 
 	// Begin own functions.

@@ -250,12 +250,18 @@ FLinearColor UDialogueGraphNode::GetNodeBackgroundColor() const
 	{
 		return Settings->EndNodeColor;
 	}
-	if (IsSummonNode())
+	if (IsSpeechNode() || IsSpeechSequenceNode() || IsEndNode())
 	{
-		return Settings->SpeechNodeColor;
+		return Settings->EndNodeColor;
 	}
 
-	return FLinearColor::Black;
+	if (IsMultipleChoice())
+	{
+		//对话节点为黄色
+		return Settings->SelectorRandomNodeColor;
+	}
+	//其余普通节点为蓝色
+	return Settings->SpeechNodeColor;
 }
 
 bool UDialogueGraphNode::HasOutputConnectionToNode(const UEdGraphNode* TargetNode) const

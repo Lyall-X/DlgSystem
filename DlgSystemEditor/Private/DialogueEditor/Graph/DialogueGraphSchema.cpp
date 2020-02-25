@@ -454,7 +454,7 @@ void UDialogueGraphSchema::GetAllDialogueNodeActions(FGraphActionMenuBuilder& Ac
 	{
 		const UDlgNode* DialogueNode = DialogueNodeClass->GetDefaultObject<UDlgNode>();
 		//普通TaskAction节点
-		if (DialogueNode->GetNodeTypeString() != TEXT("杀怪"))
+		if (DialogueNode->GetNodeTypeString() != TEXT("对话节点"))
 		{
 			Arguments.Add(TEXT("Name"), FText::FromString(DialogueNode->GetNodeTypeString()));
 			TSharedPtr<FNewNode_DialogueGraphSchemaAction> Action(new FNewNode_DialogueGraphSchemaAction(

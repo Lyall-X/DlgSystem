@@ -91,7 +91,7 @@ public:
 	void GetAssociatedParticipants(TArray<FName>& OutArray) const override;
 	
 #if WITH_EDITOR
-	FString GetNodeTypeString() const override { return TEXT("Speech Sequence"); }
+	FString GetNodeTypeString() const override { return TEXT("Speech Sequence--禁用"); }
 #endif
 
 	// Begin own functions

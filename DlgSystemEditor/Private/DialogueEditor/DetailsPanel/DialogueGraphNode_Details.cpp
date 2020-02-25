@@ -12,6 +12,8 @@
 #include "Widgets/DialogueTextPropertyPickList_CustomRowHelper.h"
 #include "Widgets/DialogueMultiLineEditableTextBox_CustomRowHelper.h"
 
+//新增各种节点
+
 #define LOCTEXT_NAMESPACE "DialoguGraphNode_Details"
 
 void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
@@ -101,100 +103,100 @@ void FDialogueGraphNode_Details::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 	// property from some inner properties
 	if (bIsSpeechNode)
 	{
-		IDetailCategoryBuilder& SpeechCategory = DetailLayoutBuilder->EditCategory(TEXT("Speech Node"));
-		SpeechCategory.InitiallyCollapsed(false);
+		//IDetailCategoryBuilder& SpeechCategory = DetailLayoutBuilder->EditCategory(TEXT("Speech Node"));
+		//SpeechCategory.InitiallyCollapsed(false);
 
-		IsVirtualParentPropertyHandle = PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameIsVirtualParent());
-		IsVirtualParentPropertyHandle->SetOnPropertyValueChanged(FSimpleDelegate::CreateSP(this, &Self::OnIsVirtualParentChanged));
-		SpeechCategory.AddProperty(IsVirtualParentPropertyHandle);
+		//IsVirtualParentPropertyHandle = PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameIsVirtualParent());
+		//IsVirtualParentPropertyHandle->SetOnPropertyValueChanged(FSimpleDelegate::CreateSP(this, &Self::OnIsVirtualParentChanged));
+		//SpeechCategory.AddProperty(IsVirtualParentPropertyHandle);
 
-		// Text
-		{
-			TextPropertyHandle = PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameText());
-			FDetailWidgetRow* DetailWidgetRow = &SpeechCategory.AddCustomRow(LOCTEXT("TextSearchKey", "Text"));
+		//// Text
+		//{
+		//	TextPropertyHandle = PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameText());
+		//	FDetailWidgetRow* DetailWidgetRow = &SpeechCategory.AddCustomRow(LOCTEXT("TextSearchKey", "Text"));
 
-			TextPropertyRow = MakeShared<FDialogueMultiLineEditableTextBox_CustomRowHelper>(DetailWidgetRow, TextPropertyHandle);
-			TextPropertyRow->SetPropertyUtils(DetailBuilder.GetPropertyUtilities());
-			TextPropertyRow->Update();
+		//	TextPropertyRow = MakeShared<FDialogueMultiLineEditableTextBox_CustomRowHelper>(DetailWidgetRow, TextPropertyHandle);
+		//	TextPropertyRow->SetPropertyUtils(DetailBuilder.GetPropertyUtilities());
+		//	TextPropertyRow->Update();
 
-			TextPropertyRow->OnTextCommittedEvent().AddRaw(this, &Self::HandleTextCommitted);
-			TextPropertyRow->OnTextChangedEvent().AddRaw(this, &Self::HandleTextChanged);
-		}
+		//	TextPropertyRow->OnTextCommittedEvent().AddRaw(this, &Self::HandleTextCommitted);
+		//	TextPropertyRow->OnTextChangedEvent().AddRaw(this, &Self::HandleTextChanged);
+		//}
 
-		// Text arguments
-		SpeechCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameTextArguments()))
-			.ShouldAutoExpand(true);
+		//// Text arguments
+		//SpeechCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameTextArguments()))
+		//	.ShouldAutoExpand(true);
 
-		//
-		// Data
-		//
+		////
+		//// Data
+		////
 
-		IDetailCategoryBuilder& SpeechDataCategory = DetailLayoutBuilder->EditCategory(TEXT("Speech Node Data"));
-		SpeechDataCategory.InitiallyCollapsed(false);
+		//IDetailCategoryBuilder& SpeechDataCategory = DetailLayoutBuilder->EditCategory(TEXT("Speech Node Data"));
+		//SpeechDataCategory.InitiallyCollapsed(false);
 
-		// Speaker State
-		{
-			const TSharedPtr<IPropertyHandle> SpeakerStatePropertyHandle =
-				PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameSpeakerState());
+		//// Speaker State
+		//{
+		//	const TSharedPtr<IPropertyHandle> SpeakerStatePropertyHandle =
+		//		PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameSpeakerState());
 
-			FDetailWidgetRow* DetailWidgetRow = &SpeechDataCategory.AddCustomRow(LOCTEXT("SpeakerStateSearchKey", "Speaker State"));
+		//	FDetailWidgetRow* DetailWidgetRow = &SpeechDataCategory.AddCustomRow(LOCTEXT("SpeakerStateSearchKey", "Speaker State"));
 
-			SpeakerStatePropertyRow = MakeShared<FDialogueTextPropertyPickList_CustomRowHelper>(DetailWidgetRow, SpeakerStatePropertyHandle);
-			SpeakerStatePropertyRow->SetTextPropertyPickListWidget(
-				SNew(SDialogueTextPropertyPickList)
-				.AvailableSuggestions(this, &Self::GetAllDialoguesSpeakerStates)
-				.OnTextCommitted(this, &Self::HandleSpeakerStateCommitted)
-				.HasContextCheckbox(false)
-			)
-			.SetVisibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetSpeakerStateNodeVisibility))
-			.Update();
-		}
+		//	SpeakerStatePropertyRow = MakeShared<FDialogueTextPropertyPickList_CustomRowHelper>(DetailWidgetRow, SpeakerStatePropertyHandle);
+		//	SpeakerStatePropertyRow->SetTextPropertyPickListWidget(
+		//		SNew(SDialogueTextPropertyPickList)
+		//		.AvailableSuggestions(this, &Self::GetAllDialoguesSpeakerStates)
+		//		.OnTextCommitted(this, &Self::HandleSpeakerStateCommitted)
+		//		.HasContextCheckbox(false)
+		//	)
+		//	.SetVisibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetSpeakerStateNodeVisibility))
+		//	.Update();
+		//}
 
-		// Node Data that can be anything set by the user
-		NodeDataPropertyRow = &SpeechDataCategory.AddProperty(
-			PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameNodeData())
-		);
-		NodeDataPropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetNodeDataVisibility));
-		NodeDataPropertyRow->ShouldAutoExpand(true);
+		//// Node Data that can be anything set by the user
+		//NodeDataPropertyRow = &SpeechDataCategory.AddProperty(
+		//	PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameNodeData())
+		//);
+		//NodeDataPropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetNodeDataVisibility));
+		//NodeDataPropertyRow->ShouldAutoExpand(true);
 
-		// SoundWave
-		VoiceSoundWavePropertyRow = &SpeechDataCategory.AddProperty(
-			PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameVoiceSoundWave())
-		);
-		VoiceSoundWavePropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetVoiceSoundWaveVisibility));
+		//// SoundWave
+		//VoiceSoundWavePropertyRow = &SpeechDataCategory.AddProperty(
+		//	PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameVoiceSoundWave())
+		//);
+		//VoiceSoundWavePropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetVoiceSoundWaveVisibility));
 
-		// DialogueWave
-		VoiceDialogueWavePropertyRow =  &SpeechDataCategory.AddProperty(
-			PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameVoiceDialogueWave())
-		);
-		VoiceDialogueWavePropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetVoiceDialogueWaveVisibility));
+		//// DialogueWave
+		//VoiceDialogueWavePropertyRow =  &SpeechDataCategory.AddProperty(
+		//	PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameVoiceDialogueWave())
+		//);
+		//VoiceDialogueWavePropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetVoiceDialogueWaveVisibility));
 
-		// Generic Data, can be FMOD sound
-		GenericDataPropertyRow = &SpeechDataCategory.AddProperty(
-			PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameGenericData())
-		);
-		GenericDataPropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetGenericDataVisibility));
+		//// Generic Data, can be FMOD sound
+		//GenericDataPropertyRow = &SpeechDataCategory.AddProperty(
+		//	PropertyDialogueNode->GetChildHandle(UDlgNode_Speech::GetMemberNameGenericData())
+		//);
+		//GenericDataPropertyRow->Visibility(CREATE_VISIBILITY_CALLBACK_STATIC(&FDialogueDetailsPanelUtils::GetGenericDataVisibility));
 	}
 	else if (bIsSpeechSequenceNode)
 	{
-		IDetailCategoryBuilder& SpeechSequenceDataCategory = DetailLayoutBuilder->EditCategory(TEXT("Speech Sequence Node"));
-		SpeechSequenceDataCategory.InitiallyCollapsed(false)
-			.RestoreExpansionState(true);
-		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode_SpeechSequence::GetMemberNameSpeechSequence()))
-			.ShouldAutoExpand(true);;
+		//IDetailCategoryBuilder& SpeechSequenceDataCategory = DetailLayoutBuilder->EditCategory(TEXT("Speech Sequence Node"));
+		//SpeechSequenceDataCategory.InitiallyCollapsed(false)
+		//	.RestoreExpansionState(true);
+		//SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(UDlgNode_SpeechSequence::GetMemberNameSpeechSequence()))
+		//	.ShouldAutoExpand(true);;
 	}
 	/**************************************************************************************************************************************************/
-	else if (GraphNode->IsSummonNode())
+	if (GraphNode->IsSummonNode())
 	{
 		IDetailCategoryBuilder& SpeechSequenceDataCategory = DetailLayoutBuilder->EditCategory(TEXT("杀怪配置"));
-		SpeechSequenceDataCategory.InitiallyCollapsed(false)
-			.RestoreExpansionState(true);
-		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameNpcId()))
-			.ShouldAutoExpand(true);;
-		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameMapID()))
-			.ShouldAutoExpand(true);;
-		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameName()))
-			.ShouldAutoExpand(true);;
+		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameNpcId()));
+		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameMapID()));
+		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(USummonNpc::GetMemberNameName()));
+	}
+	if (GraphNode->IsMultipleChoice())
+	{
+		IDetailCategoryBuilder& SpeechSequenceDataCategory = DetailLayoutBuilder->EditCategory(TEXT("对话配置"));
+		SpeechSequenceDataCategory.AddProperty(PropertyDialogueNode->GetChildHandle(TEXT("availableTime")));
 	}
 }
 

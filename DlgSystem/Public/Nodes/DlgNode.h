@@ -228,7 +228,7 @@ protected:
 #endif // WITH_EDITORONLY_DATA
 
 	/** Name of a participant (speaker) associated with this node. */
-	UPROPERTY(EditAnywhere, Category = DialogueNodeData, Meta = (DisplayName = "Participant Name"))
+	UPROPERTY(EditAnywhere, Category = DialogueNodeData, Meta = (DisplayName = "节点名称"))
 	FName OwnerName;
 
 	/**
