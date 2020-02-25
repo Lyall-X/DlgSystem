@@ -20,8 +20,9 @@
 const FName UDialogueGraphSchema::PIN_CATEGORY_Input(TEXT("ParentInputs"));
 const FName UDialogueGraphSchema::PIN_CATEGORY_Output(TEXT("ChildOutputs"));
 
-const FText UDialogueGraphSchema::NODE_CATEGORY_Dialogue(LOCTEXT("DialogueNodeAction", "Dialogue Node"));
-const FText UDialogueGraphSchema::NODE_CATEGORY_Graph(LOCTEXT("GraphAction", "Graph"));
+const FText UDialogueGraphSchema::NODE_CATEGORY_Choice(LOCTEXT("SayAction", "Say (对话)"));
+const FText UDialogueGraphSchema::NODE_CATEGORY_Dialogue(LOCTEXT("DialogueNodeAction", "Task Action (行为)"));
+const FText UDialogueGraphSchema::NODE_CATEGORY_Graph(LOCTEXT("GraphAction", "节点注释"));
 const FText UDialogueGraphSchema::NODE_CATEGORY_Convert(LOCTEXT("NodesConvertAction", "Convert Node(s)"));
 
 TArray<TSubclassOf<UDlgNode>> UDialogueGraphSchema::DialogueNodeClasses;
@@ -437,40 +438,42 @@ void UDialogueGraphSchema::GetAllDialogueNodeActions(FGraphActionMenuBuilder& Ac
 	FText ToolTip, MenuDesc;
 
 	// when dragging from an input pin
-	if (ActionMenuBuilder.FromPin == nullptr)
-	{
-		// Just right clicked on the empty graph
-		ToolTip = LOCTEXT("NewDialogueNodeTooltip", "Adds {Name} to the graph");
-		MenuDesc = LOCTEXT("NewDialogueNodeMenuDescription", "{Name}");
-	}
-	else if (ActionMenuBuilder.FromPin->Direction == EGPD_Input)
-	{
-		// From an input pin
-		ToolTip = LOCTEXT("NewDialogueNodeTooltip_FromInputPin", "Adds {Name} to the graph as a parent to the current node");
-		MenuDesc = LOCTEXT("NewDialogueNodeMenuDescription_FromInputPin", "Add {Name} parent");
-	}
-	else
-	{
-		// From an output pin
-		check(ActionMenuBuilder.FromPin->Direction == EGPD_Output);
-		ToolTip = LOCTEXT("NewDialogueNodeTooltip_FromOutputPin", "Adds {Name} to the graph as a child to the current node");
-		MenuDesc = LOCTEXT("NewDialogueNodeMenuDescription_FromOutputPin", "Add {Name} child");
-	}
+	//所有节点用统一描述
+	// Just right clicked on the empty graph
+	ToolTip = LOCTEXT("NewDialogueNodeTooltip", "添加 {Name} 到任务中");
+	MenuDesc = LOCTEXT("NewDialogueNodeMenuDescription", "{Name}");
+
 
 	int32 Grouping = 0;
 	FFormatNamedArguments Arguments;
+
+	FFormatNamedArguments Choice_Arguments;
 
 	// Generate menu actions for all the node types
 	for (TSubclassOf<UDlgNode> DialogueNodeClass : DialogueNodeClasses)
 	{
 		const UDlgNode* DialogueNode = DialogueNodeClass->GetDefaultObject<UDlgNode>();
-		Arguments.Add(TEXT("Name"), FText::FromString(DialogueNode->GetNodeTypeString()));
+		//普通TaskAction节点
+		if (DialogueNode->GetNodeTypeString() != TEXT("杀怪"))
+		{
+			Arguments.Add(TEXT("Name"), FText::FromString(DialogueNode->GetNodeTypeString()));
+			TSharedPtr<FNewNode_DialogueGraphSchemaAction> Action(new FNewNode_DialogueGraphSchemaAction(
+				NODE_CATEGORY_Dialogue, FText::Format(MenuDesc, Arguments), FText::Format(ToolTip, Arguments),
+				Grouping++, DialogueNodeClass));
+			ActionMenuBuilder.AddAction(Action);
+		}
+		else
+		{
+			//对话节点
+			Choice_Arguments.Add(TEXT("Name"), FText::FromString(DialogueNode->GetNodeTypeString()));
+			TSharedPtr<FNewNode_DialogueGraphSchemaAction> Action(new FNewNode_DialogueGraphSchemaAction(
+				NODE_CATEGORY_Choice, FText::Format(MenuDesc, Choice_Arguments), FText::Format(ToolTip, Choice_Arguments),
+				Grouping++, DialogueNodeClass));
+			ActionMenuBuilder.AddAction(Action);
+		}
 
-		TSharedPtr<FNewNode_DialogueGraphSchemaAction> Action(new FNewNode_DialogueGraphSchemaAction(
-			NODE_CATEGORY_Dialogue, FText::Format(MenuDesc, Arguments), FText::Format(ToolTip, Arguments),
-			Grouping++, DialogueNodeClass));
-		ActionMenuBuilder.AddAction(Action);
 	}
+
 }
 
 void UDialogueGraphSchema::InitDialogueNodeClasses()

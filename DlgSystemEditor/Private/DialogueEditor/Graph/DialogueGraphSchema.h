@@ -185,6 +185,8 @@ public:
 	static const FText NODE_CATEGORY_Dialogue;
 	static const FText NODE_CATEGORY_Graph;
 	static const FText NODE_CATEGORY_Convert;
+	//新加对话节点
+	static const FText NODE_CATEGORY_Choice;
 
 private:
 	/** A list of all available UDlgNode classes */
