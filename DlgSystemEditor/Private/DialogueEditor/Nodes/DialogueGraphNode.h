@@ -362,7 +362,7 @@ private:
 	/** Tells us if the Edge matches the Graph Output Connections at the same Index in the OutputPin. They point to the same TargetIndex */
 	bool DoesEdgeMatchEdgeIndex(const FDlgEdge& Edge, int32 EdgeIndex, FString& OutMessage) const;
 
-protected:
+public:
 	/** The Dialogue Node this graph node references.  */
 	UPROPERTY(EditAnywhere, Instanced, Category = DialogueGraphNode, Meta = (ShowOnlyInnerProperties))
 	UDlgNode* DialogueNode;
