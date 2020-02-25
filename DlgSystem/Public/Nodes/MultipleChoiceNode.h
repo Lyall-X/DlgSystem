@@ -10,6 +10,21 @@
 /**
  * 
  */
+
+
+USTRUCT()
+struct DLGSYSTEM_API FDlgChoice
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, Category = DialogueNodeData)
+		int32 Textid;
+
+	UPROPERTY(EditAnywhere, Category = DialogueNodeData)
+		FText MetaData;
+};
+
 UCLASS()
 class DLGSYSTEM_API UMultipleChoiceNode : public UDlgNode
 {
@@ -95,4 +110,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = DialogueNodeData)
 	//演员列表
 	FText ActorList;
+
+	UPROPERTY(EditAnywhere, Category = DialogueNodeData)
+	TArray<FDlgChoice> availableChoices;
 };
+

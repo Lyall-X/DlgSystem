@@ -174,11 +174,11 @@ public:
 		return EmptyArray;
 	};
 
-	/** Gets the Text of this Node. This can be the final formatted string. */
+	/** Gets the Text of this Node. This can be the final formatted FText. */
 	virtual const FText& GetNodeText() const { return FText::GetEmpty(); }
 
 	/**
-	 * Gets the Raw unformatted Text of this Node. Usually the same as GetNodeText but in case the node supports formatted string this
+	 * Gets the Raw unformatted Text of this Node. Usually the same as GetNodeText but in case the node supports formatted FText this
 	 * is the raw form with all the arguments intact. To get the text arguments call GetTextArguments.
 	 */
 	virtual const FText& GetNodeUnformattedText() const { return GetNodeText(); }

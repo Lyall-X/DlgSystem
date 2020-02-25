@@ -8,7 +8,6 @@
 #include "Nodes/DlgNode_Speech.h"
 #include "Nodes/DlgNode_SpeechSequence.h"
 #include "DialogueGraphNode_Base.h"
-#include "SummonNpc.h"
 #include "MultipleChoiceNode.h"
 
 #include "DialogueGraphNode.generated.h"
@@ -381,6 +380,5 @@ public:
 
 	//*********************************************************************************//
 public:
-	bool IsSummonNode() const { return DialogueNode->IsA<USummonNpc>(); }
 	bool IsMultipleChoice() const { return DialogueNode->IsA<UMultipleChoiceNode>(); }
 };
