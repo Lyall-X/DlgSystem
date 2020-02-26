@@ -205,7 +205,7 @@ public:
 
 	//暂时删除的属性
 	static FName GetMemberNameOwnerName() { return GET_MEMBER_NAME_CHECKED(UDlgNode, OwnerName); }
-	static FName GetMemberNameOwnerTag() { return GET_MEMBER_NAME_CHECKED(UDlgNode, Tag); }
+	static FName GetMemberNameOwnerTag() { return GET_MEMBER_NAME_CHECKED(UDlgNode, _tag); }
 	//static FName GetMemberNameCheckChildrenOnEvaluation() { return GET_MEMBER_NAME_CHECKED(UDlgNode, bCheckChildrenOnEvaluation); }
 	//static FName GetMemberNameEnterConditions() { return GET_MEMBER_NAME_CHECKED(UDlgNode, EnterConditions); }
 	//static FName GetMemberNameEnterEvents() { return GET_MEMBER_NAME_CHECKED(UDlgNode, EnterEvents); }
@@ -255,5 +255,5 @@ protected:
 
 	/****************************************************************************************/
 	UPROPERTY(EditAnywhere, Category = DialogueNodeData)
-		int32 Tag;
+		FText _tag;
 };

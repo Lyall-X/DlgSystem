@@ -545,12 +545,12 @@ bool FDlgJsonParser::ConvertScalarJsonValueToUProperty(const TSharedPtr<FJsonVal
 		const TSharedPtr<FJsonObject> JsonObject = JsonValue->AsObject();
 		check(JsonObject.IsValid()); // should not fail if Type == EJson::Object
 
-		const FString SpecialKeyType = TEXT("__type__");
+		const FString SpecialKeyType = TEXT("$type");
 		if (!JsonObject->HasField(SpecialKeyType))
 		{
 			UE_LOG(LogDlgJsonParser,
 				   Error,
-				   TEXT("ConvertScalarJsonValueToUProperty - PropertyName = `%s` JSON does not have the __type__ special property."),
+				   TEXT("ConvertScalarJsonValueToUProperty - PropertyName = `%s` JSON does not have the $type special property."),
 				   *Property->GetNameCPP());
 			return false;
 		}

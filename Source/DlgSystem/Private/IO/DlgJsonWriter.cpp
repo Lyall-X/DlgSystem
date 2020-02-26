@@ -7,6 +7,8 @@
 #include "UObject/TextProperty.h"
 #include "UObject/PropertyPortFlags.h"
 #include "DlgHelper.h"
+//新增
+#include "MultipleChoiceNode.h"
 
 DEFINE_LOG_CATEGORY(LogDlgJsonWriter);
 
@@ -52,7 +54,7 @@ TSharedPtr<FJsonValue> FDlgJsonWriter::ConvertScalarUPropertyToJsonValue(const U
 	{
 		if (IndexInArray != INDEX_NONE && CanWriteIndex(Property))
 		{
-			JsonObject->SetField(TEXT("__index__"), MakeShared<FJsonValueNumber>(IndexInArray));
+			JsonObject->SetField(TEXT("$id"), MakeShared<FJsonValueNumber>(IndexInArray));
 		}
 	};
 
@@ -433,7 +435,17 @@ bool FDlgJsonWriter::UStructToJsonAttributes(const UStruct* StructDefinition, co
 		}
 
 		// Write type, Objects because they can have inheritance
-		OutJsonAttributes.Add(TEXT("__type__"), MakeShared<FJsonValueString>(UnrealObject->GetClass()->GetName()));
+		//进行导出节点判断
+		if (UnrealObject->IsA<UMultipleChoiceNode>())
+		{
+
+			OutJsonAttributes.Add(TEXT("$type"), MakeShared<FJsonValueString>("NodeCanvas.DialogueTrees.MultipleChoiceNode"));
+		}
+		else
+		{
+			OutJsonAttributes.Add(TEXT("$type"), MakeShared<FJsonValueString>(UnrealObject->GetClass()->GetName()));
+			//OutJsonAttributes.Add(TEXT("$type"), MakeShared<FJsonValueString>("NodeCanvas.DialogueTrees.ActionNode"));
+		}
 
 		// Structure points to the child
 		StructDefinition = UnrealObject->GetClass();
